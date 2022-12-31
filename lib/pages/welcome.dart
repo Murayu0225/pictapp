@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pictapp/pages/signin.dart';
-import 'package:pictapp/pages/signup.dart';
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({super.key});
@@ -92,7 +90,7 @@ class _WelcomePageState extends State<WelcomePage>{
         // width: _deviceWidth! * 0.8,
         // height: _deviceHeight! * 0.07,
         style: ElevatedButton.styleFrom(
-          primary: const Color(0xff007CB5),
+          backgroundColor: const Color(0xff007CB5),
           elevation: 10,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
@@ -125,7 +123,7 @@ class _WelcomePageState extends State<WelcomePage>{
           // width: _deviceWidth! * 0.8,
           // height: _deviceHeight! * 0.07,
           style: ElevatedButton.styleFrom(
-            primary: const Color(0xff09B58E),
+            backgroundColor: const Color(0xff09B58E),
             elevation: 10,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),
