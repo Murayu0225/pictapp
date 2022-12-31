@@ -133,8 +133,8 @@ class _SignInPageState extends State<SignInPage>{
                   fontSize: 17,
                   fontWeight: FontWeight.w600,
                 ),
-                primary: const Color(0xff09B58E),
-                onPrimary: Colors.white,
+                backgroundColor: const Color(0xff09B58E),
+                foregroundColor: Colors.white,
                 elevation: 10,
                 padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
                 shape: RoundedRectangleBorder(
@@ -165,7 +165,7 @@ class _SignInPageState extends State<SignInPage>{
           onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(
+              MaterialPageRoute<void>(
                 builder: (context) {
                   return const SignUpPage();
                 },
