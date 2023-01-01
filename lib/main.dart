@@ -22,7 +22,7 @@ class PICTApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'PICT Login App',
+      title: 'PICT App',
       supportedLocales: const [Locale('ja', 'JP')],
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
