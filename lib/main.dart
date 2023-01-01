@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:pictapp/pages/license.dart';
 import 'package:pictapp/pages/signin.dart';
 import 'package:pictapp/pages/signup.dart';
 import 'package:pictapp/pages/welcome.dart';
@@ -37,6 +38,7 @@ class PICTApp extends StatelessWidget {
         'welcome': (context) => const WelcomePage(),
         'signin': (context) => const SignInPage(),
         'signup': (context) => const SignUpPage(),
+        'license': (context) => const LicensesPage(),
       },
     );
   }
