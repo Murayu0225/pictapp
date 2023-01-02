@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 
-class WelcomePage extends StatefulWidget {
-  const WelcomePage({super.key});
+class HomePage2 extends StatefulWidget {
+  const HomePage2({super.key});
 
   @override
-  State<WelcomePage> createState() => _WelcomePageState();
+  State<HomePage2> createState() => _HomePage2State();
 }
 
-class _WelcomePageState extends State<WelcomePage>{
+class _HomePage2State extends State<HomePage2> {
   double? _deviceHeight, _deviceWidth;
-
   @override
   Widget build(BuildContext context) {
     _deviceHeight = MediaQuery.of(context).size.height;
     _deviceWidth = MediaQuery.of(context).size.width;
+    final Object? userNickName = ModalRoute.of(context)?.settings.arguments;
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
@@ -27,8 +27,9 @@ class _WelcomePageState extends State<WelcomePage>{
                 mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  _welcomeImage(),
-                  _title(),
+                  _title(
+                    userNickName: userNickName,
+                  ),
                   _button(),
                 ],
               ),
@@ -38,34 +39,16 @@ class _WelcomePageState extends State<WelcomePage>{
       ),
     );
   }
-
-  Widget _welcomeImage () {
-    return Column(
-      children: [
-        Image(
-          image: const AssetImage('assets/welcome.gif'),
-          height: _deviceHeight! * 0.3,
-        ),
-      ],
-    );
-  }
-  Widget _title() {
+  Widget _title({Object? userNickName}) {
     return Column(
       children: [
         Text(
-          'PICT APP',
-          style: TextStyle(
-            fontSize: _deviceHeight! * 0.05,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        Text(
-          'ようこそ！プラクティカルICTの\nクライアントアプリです',
+          '$userNickNameさん、\n本アプリは以上になります',
           textAlign: TextAlign.center,
           style: TextStyle(
-            fontSize: _deviceHeight! * 0.02,
+            fontSize: _deviceHeight ! * 0.02,
           ),
-        ),
+        )
       ],
     );
   }
@@ -73,50 +56,50 @@ class _WelcomePageState extends State<WelcomePage>{
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        _loginButton(),
-        _signupButton(),
+        _homePageButton(),
+        _licensePageButton(),
       ],
     );
   }
-  Widget _loginButton() {
+  Widget _homePageButton() {
     return Column(
 
       children: [
         Text(
-          'アカウントを',
+          '最初の画面に',
           style: TextStyle(
             fontSize: _deviceHeight! * 0.015,
             fontWeight: FontWeight.w600,
           ),
         ),
         ElevatedButton(
-        // width: _deviceWidth! * 0.8,
-        // height: _deviceHeight! * 0.07,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xff007CB5),
-          elevation: 10,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
+          // width: _deviceWidth! * 0.8,
+          // height: _deviceHeight! * 0.07,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: const Color(0xff007CB5),
+            elevation: 10,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            padding: EdgeInsets.symmetric(horizontal: _deviceWidth! * 0.06, vertical: _deviceHeight! * 0.008),
           ),
-          padding: EdgeInsets.symmetric(horizontal: _deviceWidth! * 0.06, vertical: _deviceHeight! * 0.008),
-        ),
-        child: Text(
-          '新規登録',
-          style: TextStyle(
-            fontSize: _deviceHeight! * 0.025,
+          child: Text(
+            '　戻る　',
+            style: TextStyle(
+              fontSize: _deviceHeight! * 0.025,
+            ),
           ),
+          onPressed: () => Navigator.pushNamed(context, 'welcome'),
         ),
-        onPressed: () => Navigator.pushNamed(context, 'signup'),
-      ),
       ],
     );
   }
-  Widget _signupButton() {
+  Widget _licensePageButton() {
     return Column(
 
       children: [
         Text(
-          '既存のアカウントで',
+          'ライセンスを',
           style: TextStyle(
             fontSize: _deviceHeight! * 0.015,
             fontWeight: FontWeight.w600,
@@ -134,12 +117,12 @@ class _WelcomePageState extends State<WelcomePage>{
             padding: EdgeInsets.symmetric(horizontal: _deviceWidth! * 0.06, vertical: _deviceHeight! * 0.008),
           ),
           child: Text(
-            'ログイン',
+            '閲覧する',
             style: TextStyle(
               fontSize: _deviceHeight! * 0.025,
             ),
           ),
-          onPressed: () => Navigator.pushNamed(context, 'signin'),
+          onPressed: () => Navigator.pushNamed(context, 'license'),
         ),
       ],
     );

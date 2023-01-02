@@ -1,16 +1,24 @@
 # pictapp
 
-This application was created as a final task for the "practical ICT" class.
+このアプリはプラクティカルICTの最終課題にて作成したクライアント側アプリケーション．
 
-## Getting Started
+**このアプリケーションを利用するには事前にserverディレクトリ内にあるflaskサーバを起動しておく必要がある．**
 
-This project is a starting point for a Flutter application.
+サーバのAPI仕様についてはserverディレクトリ内のREADME.mdを参照してほしい.
 
-A few resources to get you started if this is your first Flutter project:
+サーバ起動にはserverディレクトリ内にて以下のコマンドを実行する．
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+```
+$ flask run
+```
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+不足しているパッケージがあれば適宜インストールする必要がある.
+
+## ライセンス
+[MITライセンス](./LICENSE)の元提供されている．
+
+起動時に表示されるキャラクターはLottieFilesから取得した．
+
+- [Welcome Animation](https://lottiefiles.com/75705-welcome-animation)
+
+LottieFilesの詳しいライセンスは[こちら](https://lottiefiles.com/page/license)を参照のこと．

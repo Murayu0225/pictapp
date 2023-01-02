@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:pictapp/pages/home.dart';
+import 'package:pictapp/pages/home2.dart';
 import 'package:pictapp/pages/license.dart';
 import 'package:pictapp/pages/signin.dart';
 import 'package:pictapp/pages/signup.dart';
@@ -23,6 +25,7 @@ class PICTApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'PICT App',
+      debugShowCheckedModeBanner: false,
       supportedLocales: const [Locale('ja', 'JP')],
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
@@ -39,6 +42,8 @@ class PICTApp extends StatelessWidget {
         'signin': (context) => const SignInPage(),
         'signup': (context) => const SignUpPage(),
         'license': (context) => const LicensesPage(),
+        'home': (context) => const HomePage(),
+        'home2': (context) => const HomePage2(),
       },
     );
   }

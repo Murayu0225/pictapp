@@ -28,7 +28,12 @@ class _LicensesPageState extends State<LicensesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('ライセンス'),
+        title: const Text('ライセンス',
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+        backgroundColor: const Color(0xff09B58E),
       ),
       body: ListView.builder(
         itemCount: licenses.length,
