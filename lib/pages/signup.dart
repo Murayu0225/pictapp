@@ -1,6 +1,10 @@
+import 'dart:async';
+import 'dart:convert';
+
+import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:pictapp/pages/signin.dart';
-import 'package:pictapp/pages/welcome.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -18,8 +22,10 @@ class _SignUpPageState extends State<SignUpPage>{
   String _repassword = '';
   bool isVisible1 = false;
   bool isVisible2 = false;
+  bool buttonDisable = false;
 
   final _formKey = GlobalKey<FormState>();
+  final TextEditingController usernameController = TextEditingController();
 
   void toggleShowPassword1 () {
     setState(() {
@@ -87,9 +93,12 @@ class _SignUpPageState extends State<SignUpPage>{
             decoration: const InputDecoration(
               labelText: 'ユーザー名',
             ),
+            controller: usernameController,
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return '必須項目です';
+              }  else if (value.endsWith("already-exists123")) {
+                return 'このユーザー名は既に使われています';
               } else if (value.length < 6) {
                 return '6文字以上で入力してください';
               } else if (value.length > 16) {
@@ -102,6 +111,11 @@ class _SignUpPageState extends State<SignUpPage>{
                 return '英語・数字・!・@のみ使用できます';
               }
               return null;
+            },
+            onChanged: (value) {
+              setState(() {
+                _username = value;
+              });
             },
           ),
           TextFormField(
@@ -209,11 +223,81 @@ class _SignUpPageState extends State<SignUpPage>{
                 borderRadius: BorderRadius.circular(20),
               ),
             ),
-            onPressed: () {
+            onPressed: buttonDisable? null : () async {
+              setState(() {
+                buttonDisable = true;
+              });
               if (_formKey.currentState!.validate()) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('データ登録作業開始')),
-                );
+                  await Future.delayed(const Duration(seconds: 1), () {
+                  final url = Uri.parse('http://localhost:5000/signup');
+                  final url2 = Uri.parse('http://localhost:5000/signup/auth');
+                  Map<String, String> headers = {'content-type': 'application/json', 'charset': 'utf-8'};
+                  http.post(url, headers: headers, body: json.encode({
+                    'u': _username,
+                    'n': _usernickname,
+                  })).then((response) {
+                    if (response.statusCode == 200) {
+                      if (jsonDecode(response.body)['status'] == 200){
+                        final salt = jsonDecode(response.body)['salt'] as String;
+                        final hash = sha256.convert(utf8.encode(_password + salt)).toString();
+                        http.post(url2, headers: headers, body: json.encode({
+                          'u': _username,
+                          'p': hash,
+                        })).then((response2) {
+                          if (response2.statusCode == 200) {
+                            if (jsonDecode(response2.body)['status'] == 200){
+
+                              String userNickname = jsonDecode(response2.body)['nickname'] as String;
+                              Navigator.pushNamed(context, 'home', arguments: userNickname);
+
+                            } else {
+                              setState(() {
+                                buttonDisable = false;
+                              });
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text('新規登録失敗。開発者まで問い合わせください。(su010)')),
+                              );
+                            }
+                          } else {
+                            setState(() {
+                              buttonDisable = false;
+                            });
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('新規登録失敗。開発者まで問い合わせください。(su020)')),
+                            );
+                          }
+                        });
+                      } else if (jsonDecode(response.body)['status'] == 409){
+                        setState(() {
+                          buttonDisable = false;
+                        });
+                        var realUserName = usernameController.text;
+                        usernameController.text = '${usernameController.text}already-exists123';
+                        _formKey.currentState?.validate();
+                        usernameController.text = realUserName;
+                      } else {
+                        setState(() {
+                          buttonDisable = false;
+                        });
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('新規登録失敗。開発者まで問い合わせください。(su030)')),
+                        );
+                      }
+                    } else {
+                      setState(() {
+                        buttonDisable = false;
+                      });
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('新規登録失敗。ネットワークに接続されていません。(su040)')),
+                      );
+                    }
+                  });
+                });
+
+              } else {
+                setState(() {
+                  buttonDisable = false;
+                });
               }
             },
             child: const Text('新規登録'),
